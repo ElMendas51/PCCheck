@@ -1,358 +1,782 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCCheck - ¿Puede tu PC correr este juego?</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<title>PCCheck | ¿Puede tu PC correr este juego?</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0f19;
-            color: #ffffff;
-        }
+<meta name="description" content="Comprueba si tu PC puede ejecutar tus juegos favoritos. Analiza CPU, GPU y RAM con PCCheck.">
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 7%;
-            border-bottom: 1px solid #202838;
-            background: #0d121f;
-        }
+<style>
 
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .logo span {
-            color: #4ade80;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            margin-left: 25px;
-        }
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#080b12;
+    color:#fff;
+}
 
-        nav a:hover {
-            color: #4ade80;
-        }
+/* NAVBAR */
 
-        .hero {
-            text-align: center;
-            padding: 80px 20px 50px;
-        }
+header{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    background:#0b0f18;
+    border-bottom:1px solid #1c2533;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
 
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
 
-        .hero h1 span {
-            color: #4ade80;
-        }
+.logo span{
+    color:#43e879;
+}
 
-        .hero p {
-            color: #94a3b8;
-            font-size: 18px;
-            max-width: 650px;
-            margin: auto;
-        }
+nav{
+    display:flex;
+    gap:28px;
+}
 
-        .checker {
-            max-width: 850px;
-            margin: 30px auto 80px;
-            background: #111827;
-            padding: 35px;
-            border-radius: 18px;
-            border: 1px solid #263244;
-        }
+nav a{
+    color:#aeb8c8;
+    text-decoration:none;
+    font-size:15px;
+    transition:.2s;
+}
 
-        .checker h2 {
-            margin-bottom: 25px;
-            text-align: center;
-        }
+nav a:hover{
+    color:#43e879;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
+/* HERO */
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-        }
+.hero{
+    text-align:center;
+    padding:90px 20px 70px;
+    background:
+    radial-gradient(circle at 50% 0%,#12301f 0%,#080b12 55%);
+}
 
-        select {
-            width: 100%;
-            padding: 13px;
-            border-radius: 9px;
-            border: 1px solid #334155;
-            background: #0b1220;
-            color: white;
-            font-size: 15px;
-        }
+.badge{
+    display:inline-block;
+    background:#10251a;
+    border:1px solid #245a37;
+    color:#62ed91;
+    padding:7px 14px;
+    border-radius:30px;
+    font-size:13px;
+    margin-bottom:22px;
+}
 
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #4ade80;
-            color: #052e16;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.hero h1{
+    font-size:58px;
+    line-height:1.05;
+    letter-spacing:-2px;
+    max-width:900px;
+    margin:auto;
+}
 
-        button:hover {
-            background: #22c55e;
-        }
+.hero h1 span{
+    color:#43e879;
+}
 
-        #resultado {
-            display: none;
-            margin-top: 30px;
-            padding: 25px;
-            border-radius: 12px;
-            background: #0b1220;
-            text-align: center;
-            border: 1px solid #334155;
-        }
+.hero p{
+    color:#8e9aaa;
+    font-size:18px;
+    max-width:650px;
+    margin:22px auto 0;
+    line-height:1.6;
+}
 
-        #resultado h3 {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
+/* BUTTONS */
 
-        #fps {
-            font-size: 22px;
-            margin: 15px 0;
-        }
+.btn{
+    display:inline-block;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    font-weight:700;
+    border-radius:10px;
+    transition:.2s;
+}
 
-        .games {
-            max-width: 1000px;
-            margin: auto;
-            padding: 0 20px 80px;
-        }
+.btn-main{
+    margin-top:32px;
+    padding:16px 30px;
+    background:#43e879;
+    color:#06130a;
+    font-size:16px;
+}
 
-        .games h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.btn-main:hover{
+    transform:translateY(-2px);
+    background:#5af28d;
+}
 
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
+/* CHECKER */
 
-        .game {
-            background: #111827;
-            border: 1px solid #263244;
-            border-radius: 12px;
-            padding: 25px 10px;
-            text-align: center;
-            transition: 0.2s;
-        }
+.checker{
+    width:min(900px,92%);
+    margin:-10px auto 90px;
+    background:#101621;
+    border:1px solid #202c3d;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 20px 70px rgba(0,0,0,.3);
+}
 
-        .game:hover {
-            transform: translateY(-4px);
-            border-color: #4ade80;
-        }
+.checker-title{
+    text-align:center;
+    margin-bottom:30px;
+}
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid #202838;
-            color: #64748b;
-        }
+.checker-title h2{
+    font-size:27px;
+    margin-bottom:8px;
+}
 
-        @media (max-width: 700px) {
-            .hero h1 {
-                font-size: 34px;
-            }
+.checker-title p{
+    color:#7f8b9d;
+}
 
-            nav {
-                display: none;
-            }
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
 
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
+.field label{
+    display:block;
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:8px;
+}
 
-            .game-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+select{
+    width:100%;
+    padding:14px;
+    background:#0a0f18;
+    color:white;
+    border:1px solid #2b394c;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+}
+
+select:focus{
+    border-color:#43e879;
+}
+
+.check-btn{
+    width:100%;
+    margin-top:25px;
+    padding:16px;
+    background:#43e879;
+    color:#06130a;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.check-btn:hover{
+    background:#5af28d;
+}
+
+/* RESULT */
+
+.result{
+    display:none;
+    margin-top:25px;
+    padding:28px;
+    border-radius:15px;
+    background:#0a1018;
+    border:1px solid #29374a;
+    text-align:center;
+}
+
+.result-status{
+    font-size:28px;
+    font-weight:800;
+}
+
+.result-fps{
+    font-size:22px;
+    margin:12px 0;
+    color:#43e879;
+}
+
+.result-info{
+    color:#929eae;
+    line-height:1.6;
+}
+
+/* SECTION */
+
+.section{
+    width:min(1100px,92%);
+    margin:0 auto 90px;
+}
+
+.section-header{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.section-header h2{
+    font-size:28px;
+}
+
+.section-header p{
+    color:#778396;
+}
+
+/* GAMES */
+
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.game{
+    min-height:150px;
+    background:#101621;
+    border:1px solid #202c3d;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    transition:.25s;
+    cursor:pointer;
+}
+
+.game:hover{
+    transform:translateY(-5px);
+    border-color:#43e879;
+}
+
+.game-icon{
+    font-size:38px;
+    margin-bottom:14px;
+}
+
+.game-name{
+    font-weight:700;
+}
+
+.game-type{
+    color:#718096;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* FEATURES */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.feature{
+    background:#101621;
+    border:1px solid #202c3d;
+    padding:28px;
+    border-radius:15px;
+}
+
+.feature-icon{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.feature h3{
+    margin-bottom:9px;
+}
+
+.feature p{
+    color:#7f8b9d;
+    line-height:1.5;
+    font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid #1c2533;
+    padding:35px 20px;
+    text-align:center;
+    color:#687487;
+    font-size:14px;
+}
+
+footer strong{
+    color:#fff;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    header{
+        padding:0 20px;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        padding:70px 20px 55px;
+    }
+
+    .hero h1{
+        font-size:39px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .games-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .checker{
+        padding:25px 20px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="logo">PC<span>Check</span></div>
+
+    <div class="logo">
+        PC<span>Check</span>
+    </div>
 
     <nav>
         <a href="#">Inicio</a>
-        <a href="#comprobar">Comprobar</a>
+        <a href="#comprobar">Comprobar PC</a>
         <a href="#juegos">Juegos</a>
+        <a href="#como-funciona">Cómo funciona</a>
     </nav>
+
 </header>
 
+
+<!-- HERO -->
+
 <section class="hero">
-    <h1>¿Puede tu PC correr <span>este juego?</span></h1>
+
+    <div class="badge">
+        🎮 Herramienta gratuita para gamers
+    </div>
+
+    <h1>
+        ¿Puede tu PC correr <span>este juego?</span>
+    </h1>
 
     <p>
-        Introduce las características de tu ordenador y descubre
-        si puedes jugar a tus juegos favoritos.
+        Introduce los componentes de tu ordenador y descubre
+        qué rendimiento puedes esperar en tus juegos favoritos.
     </p>
+
+    <a href="#comprobar" class="btn btn-main">
+        🔍 Comprobar mi PC
+    </a>
+
 </section>
+
+
+<!-- CHECKER -->
 
 <section class="checker" id="comprobar">
 
-    <h2>🎮 Comprueba tu PC</h2>
+    <div class="checker-title">
+
+        <h2>🖥️ Analiza tu PC</h2>
+
+        <p>
+            Selecciona tus componentes para obtener una estimación.
+        </p>
+
+    </div>
 
     <div class="form-grid">
 
-        <div>
-            <label>Juego</label>
+        <div class="field">
+
+            <label>🎮 Juego</label>
 
             <select id="juego">
+
                 <option value="fortnite">Fortnite</option>
                 <option value="valorant">Valorant</option>
                 <option value="minecraft">Minecraft</option>
                 <option value="rocket">Rocket League</option>
                 <option value="gta">GTA V</option>
+
             </select>
+
         </div>
 
-        <div>
-            <label>Procesador</label>
+
+        <div class="field">
+
+            <label>🧠 Procesador</label>
 
             <select id="cpu">
-                <option value="low">Procesador básico</option>
-                <option value="medium">Intel Core i5 / Ryzen 5</option>
-                <option value="high">Intel Core i7 / Ryzen 7</option>
+
+                <option value="basic">
+                    Procesador básico
+                </option>
+
+                <option value="medium">
+                    Intel Core i5 / Ryzen 5
+                </option>
+
+                <option value="high">
+                    Intel Core i7 / Ryzen 7
+                </option>
+
             </select>
+
         </div>
 
-        <div>
-            <label>Tarjeta gráfica</label>
+
+        <div class="field">
+
+            <label>🎮 Tarjeta gráfica</label>
 
             <select id="gpu">
-                <option value="integrated">Gráfica integrada</option>
-                <option value="low">GTX 1650 / RX 570</option>
-                <option value="medium">GTX 1660 / RTX 2060</option>
-                <option value="high">RTX 3060 o superior</option>
+
+                <option value="integrated">
+                    Gráfica integrada
+                </option>
+
+                <option value="low">
+                    GTX 1650 / RX 570
+                </option>
+
+                <option value="medium">
+                    GTX 1660 / RTX 2060
+                </option>
+
+                <option value="high">
+                    RTX 3060 o superior
+                </option>
+
             </select>
+
         </div>
 
-        <div>
-            <label>Memoria RAM</label>
+
+        <div class="field">
+
+            <label>💾 Memoria RAM</label>
 
             <select id="ram">
+
                 <option value="4">4 GB</option>
                 <option value="8">8 GB</option>
                 <option value="16">16 GB</option>
                 <option value="32">32 GB</option>
+
             </select>
+
         </div>
 
     </div>
 
-    <button onclick="comprobarPC()">🔍 COMPROBAR MI PC</button>
 
-    <div id="resultado">
-        <h3 id="estado"></h3>
-        <div id="fps"></div>
-        <p id="mensaje"></p>
-    </div>
+    <button class="check-btn" onclick="comprobarPC()">
+        🔍 COMPROBAR MI PC
+    </button>
 
-</section>
 
-<section class="games" id="juegos">
+    <div class="result" id="resultado">
 
-    <h2>🔥 Juegos populares</h2>
+        <div class="result-status" id="estado"></div>
 
-    <div class="game-grid">
+        <div class="result-fps" id="fps"></div>
 
-        <div class="game">🎯<br><br>Fortnite</div>
-        <div class="game">🔫<br><br>Valorant</div>
-        <div class="game">⛏️<br><br>Minecraft</div>
-        <div class="game">🚗<br><br>Rocket League</div>
-        <div class="game">🚘<br><br>GTA V</div>
+        <div class="result-info" id="mensaje"></div>
 
     </div>
 
 </section>
+
+
+<!-- GAMES -->
+
+<section class="section" id="juegos">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>🔥 Juegos populares</h2>
+
+            <p>Comprueba si tu PC puede ejecutarlos.</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="games-grid">
+
+        <div class="game">
+            <div class="game-icon">🎯</div>
+            <div class="game-name">Fortnite</div>
+            <div class="game-type">Battle Royale</div>
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🔫</div>
+            <div class="game-name">Valorant</div>
+            <div class="game-type">Shooter</div>
+        </div>
+
+        <div class="game">
+            <div class="game-icon">⛏️</div>
+            <div class="game-name">Minecraft</div>
+            <div class="game-type">Supervivencia</div>
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🚗</div>
+            <div class="game-name">Rocket League</div>
+            <div class="game-type">Deportes</div>
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🚘</div>
+            <div class="game-name">GTA V</div>
+            <div class="game-type">Acción</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="section" id="como-funciona">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>¿Cómo funciona?</h2>
+
+            <p>Comprueba tu PC en unos segundos.</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">🖥️</div>
+
+            <h3>1. Introduce tu PC</h3>
+
+            <p>
+                Selecciona tu procesador, tarjeta gráfica
+                y cantidad de RAM.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🎮</div>
+
+            <h3>2. Elige un juego</h3>
+
+            <p>
+                Selecciona el juego que quieres comprobar.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">📊</div>
+
+            <h3>3. Comprueba el resultado</h3>
+
+            <p>
+                Obtén una estimación del rendimiento
+                y recomendaciones para mejorar los FPS.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 <footer>
-    PCCheck © 2026 · Comprueba tu PC antes de jugar
+
+    <strong>PCCheck</strong> · Herramientas para gamers
+
+    <br><br>
+
+    © 2026 PCCheck. Proyecto en desarrollo.
+
 </footer>
+
 
 <script>
 
-function comprobarPC() {
+function comprobarPC(){
 
-    const juego = document.getElementById("juego").value;
-    const cpu = document.getElementById("cpu").value;
-    const gpu = document.getElementById("gpu").value;
-    const ram = Number(document.getElementById("ram").value);
+    const cpu =
+        document.getElementById("cpu").value;
+
+    const gpu =
+        document.getElementById("gpu").value;
+
+    const ram =
+        Number(document.getElementById("ram").value);
+
+    const juego =
+        document.getElementById("juego").value;
+
 
     let puntuacion = 0;
 
-    // CPU
-    if (cpu === "medium") puntuacion += 2;
-    if (cpu === "high") puntuacion += 3;
 
-    // GPU
-    if (gpu === "low") puntuacion += 2;
-    if (gpu === "medium") puntuacion += 3;
-    if (gpu === "high") puntuacion += 4;
+    /* CPU */
 
-    // RAM
-    if (ram >= 8) puntuacion += 1;
-    if (ram >= 16) puntuacion += 2;
+    if(cpu === "medium")
+        puntuacion += 2;
 
-    let estado = "";
-    let fps = "";
-    let mensaje = "";
+    if(cpu === "high")
+        puntuacion += 3;
 
-    if (puntuacion >= 7) {
+
+    /* GPU */
+
+    if(gpu === "low")
+        puntuacion += 2;
+
+    if(gpu === "medium")
+        puntuacion += 3;
+
+    if(gpu === "high")
+        puntuacion += 4;
+
+
+    /* RAM */
+
+    if(ram >= 8)
+        puntuacion += 1;
+
+    if(ram >= 16)
+        puntuacion += 2;
+
+
+    let estado;
+    let fps;
+    let mensaje;
+
+
+    if(puntuacion >= 7){
 
         estado = "🟢 EXCELENTE";
+
         fps = "FPS estimados: 60+";
-        mensaje = "Tu PC debería ofrecer un buen rendimiento.";
 
-    } else if (puntuacion >= 4) {
+        mensaje =
+        "Tu PC debería ofrecer un buen rendimiento en este juego.";
 
-        estado = "🟡 JUGABLE";
-        fps = "FPS estimados: 40–60";
-        mensaje = "Podrás jugar, aunque quizá tengas que reducir algunos ajustes.";
-
-    } else {
-
-        estado = "🔴 LIMITADO";
-        fps = "FPS estimados: 20–40";
-        mensaje = "Tu PC puede tener dificultades. Prueba con una resolución y calidad más bajas.";
     }
 
-    document.getElementById("resultado").style.display = "block";
+    else if(puntuacion >= 4){
 
-    document.getElementById("estado").textContent = estado;
-    document.getElementById("fps").textContent = fps;
-    document.getElementById("mensaje").textContent = mensaje;
+        estado = "🟡 JUGABLE";
+
+        fps = "FPS estimados: 40–60";
+
+        mensaje =
+        "Podrás jugar, aunque quizá tengas que reducir algunos ajustes.";
+
+    }
+
+    else{
+
+        estado = "🔴 LIMITADO";
+
+        fps = "FPS estimados: 20–40";
+
+        mensaje =
+        "Tu PC puede tener dificultades. Prueba una calidad gráfica más baja.";
+
+    }
+
+
+    document.getElementById("resultado")
+        .style.display = "block";
+
+
+    document.getElementById("estado")
+        .textContent = estado;
+
+
+    document.getElementById("fps")
+        .textContent = fps;
+
+
+    document.getElementById("mensaje")
+        .textContent = mensaje;
+
 }
 
 </script>
